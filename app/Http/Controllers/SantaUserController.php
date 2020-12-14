@@ -24,4 +24,9 @@ class SantaUserController extends Controller
             return "Already Logged In";
         }
     }
+
+    public function LogoutSanta(Request $request) {
+        Auth::logout();
+        return redirect("/home");
+    }
 }

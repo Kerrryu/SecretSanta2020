@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/loginsanta', [App\Http\Controllers\SantaUserController::class, 'LoginSanta'])->name('login');
+
+Route::get('/logout', [App\Http\Controllers\SantaUserController::class, 'LogoutSanta'])->name('logout');

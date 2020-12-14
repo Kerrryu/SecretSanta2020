@@ -10,7 +10,8 @@ class SecretSantaController extends Controller
         $data = array(
             'name' => "Seby",
             'key' => "TESTKEYVALUEHERE",
-            'gamename' => "Friends With Benefits"
+            'gamename' => "Friends With Benefits",
+            "discordid" => "1234567890"
         );
 
         return json_encode($data);
