@@ -12,7 +12,11 @@ class SecretSantaController extends Controller
         $keys = GameKey::where("claimed", false)->get();
 
         if(count($keys) == 0) {
-            return "All keys used up :(";
+            $data = array(
+                'outro' => true
+            );
+
+            return json_encode($data);
         }
 
         $randomKey = $keys[rand(0,count($keys)-1)];

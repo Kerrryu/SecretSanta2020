@@ -15,9 +15,9 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require '/home/ubuntu/SecretSanta2020/vendor/autoload.php';
+require '/home/kerryu/Documents/Projects/Laravel/secretsanta/vendor/autoload.php';
 
-$app = require_once '/home/ubuntu/SecretSanta2020/bootstrap/app.php';
+$app = require_once '/home/kerryu/Documents/Projects/Laravel/secretsanta/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

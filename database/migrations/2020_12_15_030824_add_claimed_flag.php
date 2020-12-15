@@ -25,7 +25,7 @@ class AddClaimedFlag extends Migration
      */
     public function down()
     {
-        Schema::table('game_keys', function (Blueprint $table) {
+        Schema::table('GameKey', function (Blueprint $table) {
             $table->dropColumn("claimed");
         });
     }
