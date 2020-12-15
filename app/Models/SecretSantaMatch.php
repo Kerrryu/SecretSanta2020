@@ -9,7 +9,7 @@ class SecretSantaMatch extends Model
 {
     use HasFactory;
 
-    public $table = 'secret_santa_matches';
+    public $table = 'SecretSantaMatch';
 
     public function sender() {
         return $this->hasOne("App\Models\User", "id", "senderid");
