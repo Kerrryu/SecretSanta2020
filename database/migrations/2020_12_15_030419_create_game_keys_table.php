@@ -13,7 +13,7 @@ class CreateGameKeysTable extends Migration
      */
     public function up()
     {
-        Schema::create('game_keys', function (Blueprint $table) {
+        Schema::create('GameKey', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->bigInteger("ownerid");
@@ -30,6 +30,6 @@ class CreateGameKeysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_keys');
+        Schema::dropIfExists('GameKey');
     }
 }

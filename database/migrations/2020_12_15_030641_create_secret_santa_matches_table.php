@@ -13,7 +13,7 @@ class CreateSecretSantaMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('secret_santa_matches', function (Blueprint $table) {
+        Schema::create('SecretSantaMatch', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->bigInteger("senderid");
@@ -28,6 +28,6 @@ class CreateSecretSantaMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secret_santa_matches');
+        Schema::dropIfExists('SecretSantaMatch');
     }
 }
