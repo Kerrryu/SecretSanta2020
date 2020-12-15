@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SantaUser extends Model
 {
     use HasFactory;
+
+    public $table = 'santa_users';
 }

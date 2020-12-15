@@ -11,6 +11,8 @@ class GameKey extends Model
 {
     use HasFactory;
 
+    public $table = 'game_keys';
+
     public function owner() {
         return $this->hasOne("App\Models\User", "id", "ownerid");
     }
