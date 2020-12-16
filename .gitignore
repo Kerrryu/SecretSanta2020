@@ -27,6 +27,9 @@ yarn-error.log
 /db_start/*
 !/db_start/docker-compose.yml
 
+/dbstart/*
+!/dbstart/docker-compose.yml
+
 # General
 .DS_Store
 .AppleDouble
