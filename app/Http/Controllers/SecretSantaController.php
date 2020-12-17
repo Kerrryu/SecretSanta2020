@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GameKey;
 use App\Models\User;
+use App\Models\SecretSantaMatch;
 
 use Auth;
 
@@ -44,6 +45,33 @@ class SecretSantaController extends Controller
         foreach($keys as $key) {
             $key->claimed = false;
             $key->save();
+        }
+    }
+
+    public function GenerateMatches() {
+        $matches = SecretSantaMatch::all();
+        $numUsers = count($matches);
+
+        $users = User::all();
+
+        if($numUsers == 0) {
+            $numbers = range(1, count($users));
+            shuffle($numbers);
+
+            for ($x = 0; $x < count($users); $x++) {
+                $newMatch = new SecretSantaMatch();
+                $newMatch->senderid = $users[$x]->id;
+                $newMatch->receiverid = $numbers[$x];
+                $newMatch->save();
+            }
+        } else {
+            $numbers = range(1, $numUsers);
+            shuffle($numbers);
+
+            for ($x = 0; $x < $numUsers; $x++) {
+                $matches[$x]->receiverid = $numbers[$x];
+                $matches[$x]->save();
+            } 
         }
     }
 
