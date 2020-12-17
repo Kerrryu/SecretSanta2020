@@ -64,6 +64,8 @@ class SecretSantaController extends Controller
                 $newMatch->receiverid = $numbers[$x];
                 $newMatch->save();
             }
+
+            return "Created New Matches";
         } else {
             $numbers = range(1, $numUsers);
             shuffle($numbers);
@@ -72,6 +74,8 @@ class SecretSantaController extends Controller
                 $matches[$x]->receiverid = $numbers[$x];
                 $matches[$x]->save();
             } 
+
+            return "Generated New Matches";
         }
     }
 
