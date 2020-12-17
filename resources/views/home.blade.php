@@ -31,20 +31,49 @@
         }
 
         function SubmitKey() {
-            var username = $("#loginname")[0].value;
-            var password = $("#loginpass")[0].value;
+            var userid = $("#userid")[0].value;
+            var gamekey = $("#inputgamekey")[0].value;
+            var gamename = $("#inputgamename")[0].value;
 
-            var data = {"_token": "{{ csrf_token() }}", "username": username, "password": password};
+            var data = {"_token": "{{ csrf_token() }}", "gamename": gamename, "gamekey": gamekey};
 
             $.ajax({
-                url: "/loginsanta",
+                url: "/submitkey",
                 method: "POST",
                 data: data,
                 success: function(data) {
-                    if(data == "LOGIN") {
+                    if(data == "SUCCESS") {
+                        ShowSuccessKey();
+                    } else {
+                        console.log(data);
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function ShowSuccessKey() {
+            $("#keysubmit").css("display", "block");
+
+            setTimeout(function() {
+                window.location.reload();
+            }, 4000);
+        }
+
+        function RemoveKey(keyid) {
+            var data = {"_token": "{{ csrf_token() }}", "gameid": keyid};
+
+            $.ajax({
+                url: "/removekey",
+                method: "POST",
+                data: data,
+                success: function(data) {
+                    if(data == "SUCCESS") {
                         window.location.reload();
                     } else {
-                        ShowError("Login incorrect. Please try again.");
+                        console.log(data);
                     }
                 },
                 error: function(err) {
@@ -87,6 +116,30 @@
             font-weight: 800;
             font-size: 28px;
         }
+
+        .gamekeycontainer {
+            width: 100%;
+            margin-top: 50px; 
+            background-color: #34495e; 
+            color: white; 
+            border: 1px solid black;
+        }
+
+        table {
+        }
+
+        tr {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        
+        td, th {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-right: 1px solid black;
+        }
     </style>
 @endsection
 
@@ -115,6 +168,29 @@
                                     Submit
                                 </button>
                             </form>
+                        </div>
+
+                        <div class="gamekeycontainer">
+                            <table style="width: 100%;">
+                            <tr>
+                                <th>Game Name</th>
+                                <th>Game Key</th>
+                                <th></th>
+                            </tr>
+                            @if(ISSET($keys))
+                                @foreach($keys as $key)
+                                <tr>
+                                    <td>{{$key->gamename}}</td>
+                                    <td>{{$key->key}}</td>
+                                    <td style="text-align: center;">
+                                        <p onclick="RemoveKey('{{$key->id}}')" style="color: white; background-color: red; margin: 0; cursor: pointer;">
+                                            Remove Key
+                                        </p>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endif
+                            </table>
                         </div>
                     @else
                         <h2>Login</h2>

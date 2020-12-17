@@ -19,5 +19,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/loginsanta', [App\Http\Controllers\SantaUserController::class, 'LoginSanta'])->name('login');
-
+Route::post('/submitkey', [App\Http\Controllers\SecretSantaController::class, 'SubmitKey'])->name('submitkey');
+Route::post('/removekey', [App\Http\Controllers\SecretSantaController::class, 'RemoveKey'])->name('removekey');
 Route::get('/logout', [App\Http\Controllers\SantaUserController::class, 'LogoutSanta'])->name('logout');

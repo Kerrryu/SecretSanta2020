@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\GameKey;
 use App\Models\User;
 
+use Auth;
+
 class SecretSantaController extends Controller
 {
     public function ReturnWinner() {
@@ -42,6 +44,45 @@ class SecretSantaController extends Controller
         foreach($keys as $key) {
             $key->claimed = false;
             $key->save();
+        }
+    }
+
+    public function SubmitKey(Request $request) {
+        if(Auth::user() != null) {
+            $newKey = new GameKey();
+
+            $gamekey = $request->input("gamekey");
+            $gamename = $request->input("gamename");
+
+            if($gamekey != null && $gamename != null) {
+                $newKey->ownerid = Auth::id();
+                $newKey->gamename = $gamename;
+                $newKey->key = $gamekey;
+                $newKey->claimed = false;
+                $newKey->save();
+
+                return "SUCCESS";
+            } else {
+                return "Invalid key or game name";
+            }
+        } else {
+            return "Not logged in";
+        }
+    }
+
+    public function RemoveKey(Request $request) {
+        if(Auth::user() != null) {
+            $gameid = $request->input("gameid");
+            $key = GameKey::where('id', $gameid)->first();
+
+            if($key->ownerid == Auth::id()) {
+                $key->delete();
+                return "SUCCESS";
+            } else {
+                return "This key doesn't belong to you";
+            }
+        } else {
+            return "Not logged in";
         }
     }
 }
