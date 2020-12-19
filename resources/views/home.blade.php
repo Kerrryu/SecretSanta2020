@@ -205,7 +205,7 @@
     </div>
 </div>
 
-<div id="keysubmit" style="display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 500; background-color: rgba(0,0,0,0.9);">
+<div id="keysubmit" style="display: none; position: static; left: 0; top: 0; width: 100%; height: 100%; z-index: 500; background-color: rgba(0,0,0,0.9);">
     <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center;">
         <p style="color: white; text-transform: uppercase; font-size: 32px; font-weight: 800;">Your key has been sacrificially consumed by Santa's grubby little hands.</p>
         <img src="https://cdn.lowgif.com/full/75a352671f906739-dancing-christmas-snow-gif-on-gifer-by-agardana.gif">
