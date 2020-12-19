@@ -159,9 +159,9 @@
                             <form action="/api/submitkey" method="post">
                                 <input id="userid" name="userid" type="hidden" value="{{Auth::id()}}" />
                                 <p class="inputheader">Game Key (Put "Gift" if it's a steam gift):</p>
-                                <input id="inputgamekey" name="gamekey" type="text" placeholder="AAAAAA-AAAAAA-AAAAAA"/>
+                                <input id="inputgamekey" name="gamekey" type="text" placeholder="AAAAAA-AAAAAA-AAAAAA" autocomplete="off"/>
                                 <p class="inputheader">Game Name:</p>
-                                <input id="inputgamename" name="gamename" type="text" placeholder="Rudolph Massacre Simulator" />
+                                <input id="inputgamename" name="gamename" type="text" placeholder="Rudolph Massacre Simulator" autocomplete="off" />
                                 <br/>
                                 <br/>
                                 <button type="button" onclick="SubmitKey()" style="background-color: white; border: 1px solid black; color: black; padding: 10px; padding-left: 20px; padding-right: 20px;">
