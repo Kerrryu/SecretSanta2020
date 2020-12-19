@@ -80,6 +80,19 @@ class SecretSantaController extends Controller
             $key->claimed = false;
             $key->save();
         }
+
+        $userqueue = SantaUser::where("id", 1)->first();
+
+        if($userqueue == null) {
+            $userqueue = new SantaUser();
+            $userqueue->name = str_shuffle("1234567");
+            $userqueue->curIndex = 0;
+            $userqueue->save();
+        } else {
+            $userqueue->name = str_shuffle("1234567");
+            $userqueue->curIndex = 0;
+            $userqueue->save();
+        }
     }
 
     public function SubmitKey(Request $request) {
