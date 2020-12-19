@@ -6,15 +6,37 @@ use Illuminate\Http\Request;
 use App\Models\GameKey;
 use App\Models\User;
 use App\Models\SecretSantaMatch;
+use App\Models\SantaUser;
 
 use Auth;
 
 class SecretSantaController extends Controller
 {
     public function ReturnWinner() {
-        $keys = GameKey::where("claimed", false)->get();
+        $userqueue = SantaUser::where("id", 1)->first();
 
-        if(count($keys) == 0) {
+        if($userqueue == null) {
+            $userqueue = new SantaUser();
+            $userqueue->name = str_shuffle("1234567");
+            $userqueue->curIndex = 0;
+            $userqueue->save();
+        }
+
+        if($userqueue->curIndex >= (count(User::all()) - 1)) {
+            $userqueue->name = str_shuffle("1234567");
+            $userqueue->curIndex = 0;
+            $userqueue->save();
+        } else {
+            $userqueue->curIndex = $userqueue->curIndex + 1;
+            $userqueue->save();
+        }
+
+        $winnerid = $userqueue->name[$userqueue->curIndex];
+
+        $keys = GameKey::where("claimed", false)->where("ownerid", "!=", $winnerid)->get();
+        $unclaimedkeys = GameKey::where("claimed", false)->get();
+
+        if(count($unclaimedkeys) == 0) {
             $data = array(
                 'outro' => true
             );
@@ -22,22 +44,34 @@ class SecretSantaController extends Controller
             return json_encode($data);
         }
 
-        $randomKey = $keys[rand(0,count($keys)-1)];
+        if(count($keys) != 0) {
+            $randomKey = $keys[rand(0,count($keys)-1)];
 
-        $owner = $randomKey->owner;
-        $winner = $randomKey->owner->secretmatch->receiver;
+            $owner = $randomKey->owner;
+            $winner = User::where('id', $winnerid)->first();
 
-        $data = array(
-            'name' => $winner->name,
-            'key' => $randomKey->key,
-            'gamename' => $randomKey->gamename,
-            "discordid" => $winner->discordid
-        );
+            $data = array(
+                'name' => $winner->name,
+                'key' => $randomKey->key,
+                'gamename' => $randomKey->gamename,
+                "discordid" => $winner->discordid
+            );
 
-        $randomKey->claimed = true;
-        $randomKey->save();
+            $randomKey->claimed = true;
+            $randomKey->save();
 
-        return json_encode($data);
+            return json_encode($data);
+        } else {
+            $winner = User::where('id', $winnerid)->first();
+            $data = array(
+                'name' => $winner->name,
+                'key' => "OUT OF KEYS",
+                'gamename' => "No more keys left for you",
+                "discordid" => "$winner->discordid"
+            );
+
+            return json_encode($data);
+        }
     }
 
     public function ResetKeys() {
@@ -45,37 +79,6 @@ class SecretSantaController extends Controller
         foreach($keys as $key) {
             $key->claimed = false;
             $key->save();
-        }
-    }
-
-    public function GenerateMatches() {
-        $matches = SecretSantaMatch::all();
-        $numUsers = count($matches);
-
-        $users = User::all();
-
-        if($numUsers == 0) {
-            $numbers = range(1, count($users));
-            shuffle($numbers);
-
-            for ($x = 0; $x < count($users); $x++) {
-                $newMatch = new SecretSantaMatch();
-                $newMatch->senderid = $users[$x]->id;
-                $newMatch->receiverid = $numbers[$x];
-                $newMatch->save();
-            }
-
-            return "Created New Matches";
-        } else {
-            $numbers = range(1, $numUsers);
-            shuffle($numbers);
-
-            for ($x = 0; $x < $numUsers; $x++) {
-                $matches[$x]->receiverid = $numbers[$x];
-                $matches[$x]->save();
-            } 
-
-            return "Generated New Matches";
         }
     }
 

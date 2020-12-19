@@ -22,4 +22,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('getwinner', [App\Http\Controllers\SecretSantaController::class, 'ReturnWinner'])->name('winner');
 Route::get('resetkeys', [App\Http\Controllers\SecretSantaController::class, 'ResetKeys'])->name('resetkeys');
-Route::get('generatematches', [App\Http\Controllers\SecretSantaController::class, 'GenerateMatches'])->name('genmatches');
